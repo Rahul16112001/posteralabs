@@ -5,29 +5,29 @@ export const OrbitalRing: React.FC = () => {
   const text = "REBUILDING • REFINING • RETURNING • ";
 
   return (
-    <div className="relative flex items-center justify-center w-36 h-36 md:w-44 md:h-44 mx-auto select-none pointer-events-auto">
+    <div className="relative flex items-center justify-center w-44 h-44 md:w-56 md:h-56 mx-auto select-none pointer-events-auto">
       {/* Outer ambient glow */}
-      <div className="absolute inset-0 rounded-full bg-[#b61c1c]/30 blur-2xl animate-pulse-subtle" />
+      <div className="absolute inset-0 rounded-full bg-[#b61c1c]/25 blur-3xl animate-pulse-subtle" />
 
       {/* Rotating SVG Ring Text */}
       <motion.svg
         className="absolute inset-0 w-full h-full"
         viewBox="0 0 200 200"
         animate={{ rotate: 360 }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+        transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}
       >
         <defs>
           <path
             id="textPathCircle"
-            d="M 100, 100 m -70, 0 a 70,70 0 1,1 140,0 a 70,70 0 1,1 -140,0"
+            d="M 100, 100 m -74, 0 a 74,74 0 1,1 148,0 a 74,74 0 1,1 -148,0"
           />
         </defs>
         <text
           fill="#ffe9e6"
-          fontSize="11.5"
+          fontSize="11"
           fontWeight="600"
           letterSpacing="3.5"
-          className="uppercase drop-shadow-[0_0_8px_rgba(224,90,90,0.6)]"
+          className="uppercase drop-shadow-[0_0_10px_rgba(224,90,90,0.7)] opacity-90"
         >
           <textPath href="#textPathCircle" startOffset="0%">
             {text}
@@ -35,26 +35,25 @@ export const OrbitalRing: React.FC = () => {
         </text>
       </motion.svg>
 
-      {/* Concentric Thin Orbit Lines */}
-      <div className="absolute inset-3 rounded-full border border-[#ffe9e6]/20 border-dashed animate-spin-slow" />
-      <div className="absolute inset-7 rounded-full border border-[#e05a5a]/25" />
+      {/* Concentric Delicate Orbit Rings */}
+      <div className="absolute inset-4 rounded-full border border-[#ffe9e6]/15 border-dashed animate-spin-slow" />
+      <div className="absolute inset-8 rounded-full border border-[#e05a5a]/20" />
 
-      {/* Central Glowing Sphere with PosteraLabs Star & Dot */}
+      {/* Clean Floating Logo Emblem (No brown box / background) */}
       <motion.div
-        whileHover={{ scale: 1.12 }}
-        className="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-tr from-[#7a1010] via-[#b61c1c] to-[#e05a5a] p-[1.5px] shadow-[0_0_35px_rgba(182,28,28,0.7)] flex items-center justify-center overflow-hidden cursor-pointer"
+        whileHover={{ scale: 1.15, rotate: 5 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+        className="relative z-10 flex items-center justify-center cursor-pointer p-2"
       >
-        <div className="w-full h-full rounded-full bg-gradient-to-b from-[#4a0a0a]/90 to-[#1e0505]/95 backdrop-blur-md flex items-center justify-center relative">
-          {/* Inner pulse */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,233,230,0.35),transparent_70%)]" />
-          
-          {/* Central Logo Symbol */}
-          <img
-            src="/assets/logo_white_transparent.png"
-            alt="PosteraLabs Emblem"
-            className="w-8 h-8 md:w-10 md:h-10 object-contain drop-shadow-[0_0_12px_rgba(255,233,230,0.9)] transform -translate-y-0.5"
-          />
-        </div>
+        {/* Soft luminous aura around the logo itself */}
+        <div className="absolute w-24 h-24 rounded-full bg-gradient-to-tr from-[#b61c1c]/40 via-[#e05a5a]/30 to-transparent blur-xl pointer-events-none" />
+        
+        {/* Crisp Large Transparent Logo */}
+        <img
+          src="/assets/logo_red_transparent.png"
+          alt="PosteraLabs Emblem"
+          className="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-[0_0_20px_rgba(224,90,90,0.85)] filter brightness-110"
+        />
       </motion.div>
     </div>
   );

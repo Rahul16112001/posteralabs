@@ -1,46 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Copy, Check, Sparkles, Compass, ShieldCheck, ArrowUpRight, SunMedium, Sunset, Sparkle } from 'lucide-react';
+import { Mail, Copy, Check, Sparkles, ArrowUpRight } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { CustomCursor } from './components/CustomCursor';
 import { ParticleCanvas } from './components/ParticleCanvas';
 import { LandscapeScene } from './components/LandscapeScene';
 import { OrbitalRing } from './components/OrbitalRing';
-import { SoundToggle } from './components/SoundToggle';
 
 export const App: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isCopied, setIsCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentTime, setCurrentTime] = useState('');
-  const [activeMood, setActiveMood] = useState<'dawn' | 'dusk' | 'radiant'>('radiant');
 
   const containerRef = useRef<HTMLDivElement>(null);
   const email = 'posteralabs@gmail.com';
-
-  // Live agency clock
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setCurrentTime(
-        now.toLocaleTimeString('en-US', {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: true,
-        })
-      );
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Preloader transition
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1100);
+    }, 900);
     return () => clearTimeout(timer);
   }, []);
 
@@ -82,8 +61,8 @@ export const App: React.FC = () => {
       const originY = (rect.top + rect.height / 2) / window.innerHeight;
 
       confetti({
-        particleCount: 55,
-        spread: 60,
+        particleCount: 60,
+        spread: 65,
         origin: { x: originX, y: originY },
         colors: ['#b61c1c', '#e05a5a', '#ffe9e6', '#fff6f3', '#ffc53d'],
         disableForReducedMotion: true,
@@ -113,8 +92,8 @@ export const App: React.FC = () => {
       {/* 2. Interactive Reactive Floating Fireflies & Particles Canvas */}
       <ParticleCanvas />
 
-      {/* 3. Illustrated Vector Cinematic Landscape with Multi-layer Parallax */}
-      <LandscapeScene mouseX={mousePosition.x} mouseY={mousePosition.y} mood={activeMood} />
+      {/* 3. Illustrated Vector Cinematic Landscape with Parallax */}
+      <LandscapeScene mouseX={mousePosition.x} mouseY={mousePosition.y} />
 
       {/* 4. Cinematic Intro Preloader Overlay */}
       <AnimatePresence>
@@ -123,7 +102,7 @@ export const App: React.FC = () => {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[100] bg-[#140505] flex flex-col items-center justify-center pointer-events-none"
+            className="fixed inset-0 z-[100] bg-[#140303] flex flex-col items-center justify-center pointer-events-none"
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
@@ -131,17 +110,17 @@ export const App: React.FC = () => {
               transition={{ duration: 0.6, ease: 'easeOut' }}
               className="flex flex-col items-center gap-4"
             >
-              <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#7a1010] to-[#e05a5a] p-0.5 shadow-[0_0_50px_rgba(182,28,28,0.8)]">
-                <div className="w-full h-full bg-[#1b0505] rounded-2xl flex items-center justify-center">
-                  <img
-                    src="/assets/logo_red_transparent.png"
-                    alt="PosteraLabs"
-                    className="w-10 h-10 object-contain drop-shadow-[0_0_15px_rgba(224,90,90,0.8)]"
-                  />
-                </div>
+              {/* Clean glowing logo without brown box */}
+              <div className="relative flex items-center justify-center">
+                <div className="absolute w-24 h-24 rounded-full bg-[#b61c1c]/40 blur-2xl" />
+                <img
+                  src="/assets/logo_red_transparent.png"
+                  alt="PosteraLabs"
+                  className="w-16 h-16 object-contain drop-shadow-[0_0_25px_rgba(224,90,90,0.9)]"
+                />
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-xl font-bold tracking-widest text-[#fff6f3] uppercase">
+                <span className="text-2xl font-bold tracking-wider text-[#fff6f3] uppercase">
                   Postera<span className="text-[#e05a5a]">Labs</span>
                 </span>
               </div>
@@ -158,113 +137,49 @@ export const App: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* 5. TOP NAVIGATION / HEADER */}
+      {/* 5. TOP NAVIGATION / HEADER (Clean brand logo & wordmark only) */}
       <motion.header
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-30 w-full px-6 sm:px-10 lg:px-16 pt-8 pb-4 flex items-center justify-between"
+        transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-30 w-full px-6 sm:px-12 lg:px-20 pt-8 pb-4 flex items-center justify-between"
       >
         {/* Brand Logo & Wordmark */}
         <motion.div
           whileHover={{ scale: 1.03 }}
-          className="flex items-center gap-3.5 group cursor-pointer"
+          className="flex items-center gap-4 group cursor-pointer"
         >
-          <div className="relative w-10 h-10 md:w-11 md:h-11 rounded-xl bg-gradient-to-tr from-[#7a1010] via-[#b61c1c] to-[#e05a5a] p-[1.5px] shadow-[0_0_20px_rgba(182,28,28,0.5)] group-hover:shadow-[0_0_30px_rgba(224,90,90,0.8)] transition-all duration-300">
-            <div className="w-full h-full bg-[#1b0505]/90 rounded-[10px] flex items-center justify-center backdrop-blur-md">
-              <img
-                src="/assets/logo_red_transparent.png"
-                alt="PosteraLabs Logo"
-                className="w-6 h-6 md:w-7 md:h-7 object-contain drop-shadow-[0_0_8px_rgba(224,90,90,0.8)] group-hover:rotate-12 transition-transform duration-300"
-              />
-            </div>
+          {/* Clean Large Logo (No brown background container) */}
+          <div className="relative flex items-center justify-center">
+            <div className="absolute w-12 h-12 rounded-full bg-[#b61c1c]/30 blur-lg group-hover:bg-[#e05a5a]/50 transition-all duration-300" />
+            <img
+              src="/assets/logo_red_transparent.png"
+              alt="PosteraLabs Logo"
+              className="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-[0_0_12px_rgba(224,90,90,0.8)] group-hover:rotate-6 group-hover:scale-105 transition-transform duration-300 filter brightness-110"
+            />
           </div>
+
           <div className="flex flex-col">
-            <span className="text-xl md:text-2xl font-bold tracking-tight text-[#fff6f3] flex items-center gap-0.5">
+            <span className="text-2xl md:text-3xl font-bold tracking-tight text-[#fff6f3] flex items-center gap-0.5 leading-none">
               Postera<span className="text-[#e05a5a]">Labs</span>
             </span>
-            <span className="text-[10px] md:text-[11px] font-medium tracking-[0.25em] uppercase text-[#ffe9e6]/60">
-              Video & Brand Studio
+            <span className="text-[11px] md:text-[12px] font-medium tracking-[0.22em] uppercase text-[#ffe9e6]/70 mt-1">
+              Video Editing Agency
             </span>
           </div>
         </motion.div>
-
-        {/* Status Pill, Atmosphere Mode & Sound Toggle */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Atmosphere Mood Selector */}
-          <div className="hidden lg:flex items-center gap-1 p-1 rounded-full glass-pill border border-[#ffe9e6]/15 text-xs">
-            <button
-              onClick={() => setActiveMood('dawn')}
-              className={`interactive-element px-2.5 py-1 rounded-full flex items-center gap-1 transition-all ${
-                activeMood === 'dawn'
-                  ? 'bg-[#e05a5a] text-white shadow-[0_0_10px_rgba(224,90,90,0.8)]'
-                  : 'text-[#ffe9e6]/70 hover:text-white'
-              }`}
-            >
-              <SunMedium className="w-3 h-3" />
-              <span>Dawn</span>
-            </button>
-            <button
-              onClick={() => setActiveMood('radiant')}
-              className={`interactive-element px-2.5 py-1 rounded-full flex items-center gap-1 transition-all ${
-                activeMood === 'radiant'
-                  ? 'bg-[#b61c1c] text-white shadow-[0_0_10px_rgba(182,28,28,0.8)]'
-                  : 'text-[#ffe9e6]/70 hover:text-white'
-              }`}
-            >
-              <Sparkle className="w-3 h-3" />
-              <span>Radiant</span>
-            </button>
-            <button
-              onClick={() => setActiveMood('dusk')}
-              className={`interactive-element px-2.5 py-1 rounded-full flex items-center gap-1 transition-all ${
-                activeMood === 'dusk'
-                  ? 'bg-[#7a1010] text-white shadow-[0_0_10px_rgba(122,16,16,0.8)]'
-                  : 'text-[#ffe9e6]/70 hover:text-white'
-              }`}
-            >
-              <Sunset className="w-3 h-3" />
-              <span>Dusk</span>
-            </button>
-          </div>
-
-          {/* Rebuilding Live Indicator */}
-          <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill border border-[#ffe9e6]/15">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e05a5a] opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#b61c1c]" />
-            </span>
-            <span className="text-xs font-medium tracking-wide text-[#ffe9e6]/90">
-              Crafting Mode
-            </span>
-          </div>
-
-          {/* Ambient Sound Synthesizer Toggle */}
-          <SoundToggle />
-        </div>
       </motion.header>
 
       {/* 6. MAIN CONTENT SECTION (Full-Screen Visual Centerpiece) */}
-      <main className="relative z-20 flex-1 flex flex-col items-center justify-center px-6 sm:px-8 max-w-5xl mx-auto text-center py-10 md:py-16">
-        {/* Orbital Marquee Ring */}
+      <main className="relative z-20 flex-1 flex flex-col items-center justify-center px-6 sm:px-8 max-w-5xl mx-auto text-center py-8 md:py-14">
+        {/* Orbital Marquee Ring with Clean Floating Logo */}
         <motion.div
           initial={{ scale: 0.7, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           className="mb-8 md:mb-12"
         >
           <OrbitalRing />
-        </motion.div>
-
-        {/* Agency Status Tag */}
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-pill text-xs md:text-sm font-medium tracking-wider text-[#ffe9e6] uppercase mb-6 shadow-[0_0_20px_rgba(182,28,28,0.2)]"
-        >
-          <Sparkles className="w-3.5 h-3.5 text-[#e05a5a]" />
-          <span>Scheduled System Enhancement</span>
         </motion.div>
 
         {/* HEADLINE: Word-by-Word Masked Reveal with Fluid Typography */}
@@ -277,7 +192,7 @@ export const App: React.FC = () => {
                 animate={{ y: '0%', opacity: 1, rotate: 0 }}
                 transition={{
                   duration: 0.9,
-                  delay: 0.7 + index * 0.08,
+                  delay: 0.5 + index * 0.08,
                   ease: [0.16, 1, 0.3, 1],
                 }}
                 whileHover={{
@@ -286,7 +201,7 @@ export const App: React.FC = () => {
                 }}
               >
                 {word === 'beautiful.' ? (
-                  <span className="bg-gradient-to-r from-[#ffe9e6] via-[#e05a5a] to-[#ffb8b8] bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(224,90,90,0.6)]">
+                  <span className="bg-gradient-to-r from-[#ffe9e6] via-[#e05a5a] to-[#ffb8b8] bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(224,90,90,0.7)]">
                     {word}
                   </span>
                 ) : (
@@ -301,7 +216,7 @@ export const App: React.FC = () => {
         <motion.p
           initial={{ y: 25, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.9, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.9, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="text-base sm:text-xl md:text-2xl font-normal text-[#ffe9e6]/85 max-w-2xl leading-relaxed mb-10 md:mb-12 font-['Fredoka']"
         >
           Our website is under maintenance and will take a little time to rebuild.{' '}
@@ -312,7 +227,7 @@ export const App: React.FC = () => {
         <motion.div
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.9, delay: 1.3, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.9, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
         >
           {/* Primary Mailto Link Button */}
@@ -386,27 +301,23 @@ export const App: React.FC = () => {
       <motion.footer
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.9, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-30 w-full px-6 sm:px-10 lg:px-16 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs md:text-sm text-[#ffe9e6]/60 border-t border-[#ffe9e6]/10 backdrop-blur-sm"
+        transition={{ duration: 0.9, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-30 w-full px-6 sm:px-12 lg:px-20 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs md:text-sm text-[#ffe9e6]/60 border-t border-[#ffe9e6]/10 backdrop-blur-sm"
       >
-        {/* Copyright */}
         <div className="flex items-center gap-2 font-medium text-[#ffe9e6]/80">
           <span>© PosteraLabs</span>
           <span className="w-1 h-1 rounded-full bg-[#e05a5a]" />
           <span className="text-[#ffe9e6]/50">All Rights Reserved</span>
         </div>
 
-        {/* Studio Agency Details & Live Time */}
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2 text-[#ffe9e6]/60">
-            <Compass className="w-3.5 h-3.5 text-[#e05a5a]" />
-            <span>Studio Clock: {currentTime || 'Active'}</span>
-          </div>
-
-          <div className="flex items-center gap-1.5 text-[#ffe9e6]/60">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#e05a5a]" />
-            <span>Direct Desk: {email}</span>
-          </div>
+        <div className="flex items-center gap-2 text-[#ffe9e6]/60">
+          <span>Direct Desk:</span>
+          <a
+            href={`mailto:${email}`}
+            className="text-[#ffe9e6] hover:text-[#e05a5a] transition-colors underline underline-offset-4 decoration-[#e05a5a]/50"
+          >
+            {email}
+          </a>
         </div>
       </motion.footer>
     </div>
