@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-crimson: #b61c1c;
+    --color-dark-crimson: #7a1010;
+    --color-burgundy: #4a0a0a;
+    --color-rose: #e05a5a;
+    --color-blush: #ffe9e6;
+    --color-cream: #fff6f3;
+    --color-night: #140505;
+  }
+
+  * {
+    font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  body {
+    background-color: #160505;
+    color: #fff6f3;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #140505;
+}
+::-webkit-scrollbar-thumb {
+  background: #7a1010;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b61c1c;
+}
+
+/* Glassmorphism helpers */
+.glass-panel {
+  background: linear-gradient(135deg, rgba(255, 233, 230, 0.08) 0%, rgba(182, 28, 28, 0.05) 50%, rgba(74, 10, 10, 0.15) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-pill {
+  background: rgba(255, 246, 243, 0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 233, 230, 0.18);
+  box-shadow: 0 8px 32px rgba(182, 28, 28, 0.12);
+}
+
+.crimson-glow {
+  box-shadow: 0 0 45px rgba(182, 28, 28, 0.45), 0 0 90px rgba(224, 90, 90, 0.2);
+}
+
+.text-glow {
+  text-shadow: 0 0 30px rgba(224, 90, 90, 0.35), 0 0 60px rgba(182, 28, 28, 0.2);
+}
+
+/* Grain film effect */
+.film-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* Orbit animation */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 24s linear infinite;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 4s ease-in-out infinite;
+}
+
+@keyframes wave-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.5deg);
+  }
+}
+
+.animate-wave-float {
+  animation: wave-float 6s ease-in-out infinite;
+}
