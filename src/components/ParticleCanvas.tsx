@@ -11,7 +11,7 @@ interface Particle {
   color: string;
   pulseSpeed: number;
   pulseAngle: number;
-  type: 'ember' | 'firefly' | 'stardust';
+  glow: string;
 }
 
 export const ParticleCanvas: React.FC = () => {
@@ -31,7 +31,7 @@ export const ParticleCanvas: React.FC = () => {
     const mouse = {
       x: -1000,
       y: -1000,
-      radius: 140,
+      radius: 150,
     };
 
     const handleResize = () => {
@@ -63,33 +63,29 @@ export const ParticleCanvas: React.FC = () => {
     document.addEventListener('mouseleave', handleMouseLeave);
 
     const colors = [
-      'rgba(224, 90, 90, ',   // rose
-      'rgba(255, 233, 230, ',  // soft blush
-      'rgba(255, 246, 243, ',  // warm cream
-      'rgba(182, 28, 28, ',   // primary crimson
-      'rgba(255, 200, 150, ',  // warm golden-rose glow
+      { color: '255, 255, 255', glow: '#ffffff' },        // Pure crisp white
+      { color: '182, 28, 28', glow: '#b61c1c' },          // Brand crimson
+      { color: '255, 230, 230', glow: '#ffffff' },        // Soft white-blush
+      { color: '220, 40, 40', glow: '#dc2828' },          // Vibrant ruby
     ];
 
-    const particleCount = Math.min(Math.floor(window.innerWidth / 18), 75);
+    const particleCount = Math.min(Math.floor(window.innerWidth / 22), 60);
     const particles: Particle[] = [];
 
     for (let i = 0; i < particleCount; i++) {
-      const typeChoice = Math.random();
-      const type: 'ember' | 'firefly' | 'stardust' =
-        typeChoice < 0.4 ? 'ember' : typeChoice < 0.8 ? 'firefly' : 'stardust';
-
+      const config = colors[Math.floor(Math.random() * colors.length)];
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.4 + (type === 'ember' ? -0.1 : 0),
-        vy: -0.2 - Math.random() * 0.45,
-        size: type === 'firefly' ? 2 + Math.random() * 2.5 : 1 + Math.random() * 2,
-        baseAlpha: 0.25 + Math.random() * 0.6,
-        alpha: 0.3,
-        color: colors[Math.floor(Math.random() * colors.length)],
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: -0.15 - Math.random() * 0.35,
+        size: 1 + Math.random() * 2.2,
+        baseAlpha: 0.3 + Math.random() * 0.5,
+        alpha: 0.4,
+        color: config.color,
+        glow: config.glow,
         pulseSpeed: 0.02 + Math.random() * 0.03,
         pulseAngle: Math.random() * Math.PI * 2,
-        type,
       });
     }
 
@@ -99,13 +95,11 @@ export const ParticleCanvas: React.FC = () => {
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
-        // Organic floating motion
         p.pulseAngle += p.pulseSpeed;
         p.alpha = p.baseAlpha + Math.sin(p.pulseAngle) * 0.25;
-        p.alpha = Math.max(0.05, Math.min(1, p.alpha));
+        p.alpha = Math.max(0.1, Math.min(0.95, p.alpha));
 
-        // Physics update
-        p.x += p.vx + Math.sin(p.pulseAngle * 0.5) * 0.2;
+        p.x += p.vx + Math.sin(p.pulseAngle * 0.5) * 0.15;
         p.y += p.vy;
 
         // Mouse avoidance physics
@@ -128,13 +122,12 @@ export const ParticleCanvas: React.FC = () => {
         if (p.x < -10) p.x = width + 10;
         if (p.x > width + 10) p.x = -10;
 
-        // Draw particle with luminous glow
         ctx.save();
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `${p.color}${p.alpha})`;
-        ctx.shadowColor = p.color === colors[3] ? '#b61c1c' : '#ffe9e6';
-        ctx.shadowBlur = p.type === 'firefly' ? 14 : 6;
+        ctx.fillStyle = `rgba(${p.color}, ${p.alpha})`;
+        ctx.shadowColor = p.glow;
+        ctx.shadowBlur = p.glow === '#ffffff' ? 10 : 8;
         ctx.fill();
         ctx.restore();
       }

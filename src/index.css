@@ -3,21 +3,23 @@
 @layer base {
   :root {
     --color-crimson: #b61c1c;
-    --color-dark-crimson: #7a1010;
-    --color-burgundy: #4a0a0a;
-    --color-rose: #e05a5a;
-    --color-blush: #ffe9e6;
-    --color-cream: #fff6f3;
-    --color-night: #140505;
+    --color-crimson-bright: #d92222;
+    --color-crimson-dark: #7a1010;
+    --color-white: #ffffff;
+    --color-night: #0e0202;
   }
 
   * {
-    font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  h1, h2, h3, .font-heading {
+    font-family: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   body {
-    background-color: #160505;
-    color: #fff6f3;
+    background-color: #0d0202;
+    color: #ffffff;
     overflow-x: hidden;
     margin: 0;
     padding: 0;
@@ -29,84 +31,75 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #140505;
+  background: #0d0202;
 }
 ::-webkit-scrollbar-thumb {
-  background: #7a1010;
+  background: #b61c1c;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #b61c1c;
+  background: #e02424;
 }
 
 /* Glassmorphism helpers */
 .glass-panel {
-  background: linear-gradient(135deg, rgba(255, 233, 230, 0.08) 0%, rgba(182, 28, 28, 0.05) 50%, rgba(74, 10, 10, 0.15) 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .glass-pill {
-  background: rgba(255, 246, 243, 0.07);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 233, 230, 0.18);
-  box-shadow: 0 8px 32px rgba(182, 28, 28, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 30px rgba(182, 28, 28, 0.2);
 }
 
-.crimson-glow {
-  box-shadow: 0 0 45px rgba(182, 28, 28, 0.45), 0 0 90px rgba(224, 90, 90, 0.2);
+/* Subtle luxury studio grid */
+.studio-grid {
+  background-size: 60px 60px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
 }
 
-.text-glow {
-  text-shadow: 0 0 30px rgba(224, 90, 90, 0.35), 0 0 60px rgba(182, 28, 28, 0.2);
-}
-
-/* Grain film effect */
+/* Film grain effect */
 .film-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
 }
 
-/* Orbit animation */
-@keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin-slow {
-  animation: spin-slow 24s linear infinite;
-}
-
-@keyframes pulse-subtle {
+/* Fluid morph animations */
+@keyframes morph-orb-1 {
   0%, 100% {
-    opacity: 0.85;
-    transform: scale(1);
+    transform: translate(0, 0) scale(1);
   }
-  50% {
-    opacity: 1;
-    transform: scale(1.03);
+  33% {
+    transform: translate(60px, -40px) scale(1.15);
+  }
+  66% {
+    transform: translate(-40px, 50px) scale(0.9);
   }
 }
 
-.animate-pulse-subtle {
-  animation: pulse-subtle 4s ease-in-out infinite;
-}
-
-@keyframes wave-float {
+@keyframes morph-orb-2 {
   0%, 100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translate(0, 0) scale(1);
   }
-  50% {
-    transform: translateY(-8px) rotate(1.5deg);
+  33% {
+    transform: translate(-50px, 40px) scale(1.1);
+  }
+  66% {
+    transform: translate(40px, -30px) scale(0.95);
   }
 }
 
-.animate-wave-float {
-  animation: wave-float 6s ease-in-out infinite;
+.animate-morph-1 {
+  animation: morph-orb-1 16s ease-in-out infinite;
+}
+
+.animate-morph-2 {
+  animation: morph-orb-2 20s ease-in-out infinite;
 }
